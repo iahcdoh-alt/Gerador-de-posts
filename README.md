@@ -68,7 +68,24 @@ cp .env.example .env
 
 ## 💻 Como Usar
 
-### Execução Básica
+### 🎨 Versão com Interface Gráfica (GUI) - RECOMENDADO!
+
+**Interface moderna com janelas, botões e preview de imagens:**
+
+```bash
+python main_gui.py
+```
+
+Características da versão GUI:
+- ✅ Interface visual intuitiva estilo Windows
+- ✅ Preview da imagem gerada em tempo real
+- ✅ Botões para salvar e copiar facilmente
+- ✅ Barra de progresso durante geração
+- ✅ Experiência de usuário aprimorada
+
+### 🖥️ Versão Terminal (CLI)
+
+**Interface de linha de comando tradicional:**
 
 ```bash
 python main.py
@@ -124,50 +141,75 @@ python main.py
 
 ## 🪟 Versão Windows (Executável .exe)
 
-Você pode gerar um executável Windows standalone que não precisa do Python instalado!
+Você pode gerar executáveis Windows standalone que não precisam do Python instalado!
 
-### Gerar Executável
+### Duas Versões Disponíveis
 
-**Método Rápido:**
+**1. Versão GUI (Interface Gráfica) - RECOMENDADO**
+```cmd
+build_windows_gui.bat
+```
+Gera: `dist\GeradordePosts_GUI.exe` - Interface moderna com janelas
+
+**2. Versão CLI (Terminal)**
 ```cmd
 build_windows.bat
 ```
+Gera: `dist\GeradordePosts.exe` - Interface de linha de comando
 
-Isso criará `dist\GeradordePosts.exe` que pode ser executado em qualquer Windows 10/11.
+**3. Gerar Ambas as Versões**
+```cmd
+build_windows_both.bat
+```
+Gera ambos os executáveis de uma vez
+
+### Diferenças Entre as Versões
+
+| Característica | GUI | CLI |
+|---|---|---|
+| Interface | Janelas visuais | Terminal/Prompt |
+| Preview de Imagem | ✅ Sim | ❌ Não |
+| Facilidade de Uso | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| Console Visível | ❌ Não | ✅ Sim |
+| Ideal Para | Usuários finais | Desenvolvedores |
 
 ### Documentação Completa
 
-Para instruções detalhadas sobre como gerar e distribuir o executável Windows, consulte:
+Para instruções detalhadas sobre como gerar e distribuir os executáveis Windows:
 📖 **[BUILD_WINDOWS.md](BUILD_WINDOWS.md)**
 
-### Vantagens do Executável
+### Vantagens dos Executáveis
 
 - ✅ Não precisa instalar Python
 - ✅ Executável standalone (~50-100 MB)
 - ✅ Fácil de distribuir
-- ✅ Interface idêntica à versão Python
 - ✅ Funciona em qualquer Windows 10/11
+- ✅ Duas interfaces para escolher (GUI ou CLI)
 
 ## 📁 Estrutura do Projeto
 
 ```
 Gerador-de-posts/
-├── main.py                 # Aplicação principal (interface CLI)
-├── openai_service.py       # Serviço de integração com OpenAI
-├── requirements.txt        # Dependências do projeto
-├── requirements-dev.txt    # Dependências para build (PyInstaller)
-├── .env.example           # Exemplo de arquivo de configuração
-├── .env                   # Suas configurações (não versionado)
-├── .gitignore            # Arquivos ignorados pelo Git
-├── README.md             # Documentação principal
-├── BUILD_WINDOWS.md      # Guia para build Windows
-├── setup.sh              # Script de instalação Linux/Mac
-├── setup.bat             # Script de instalação Windows
-├── build_windows.bat     # Script para gerar .exe
-├── GeradordePosts.spec   # Configuração PyInstaller
-└── generated_images/     # Pasta com imagens e posts gerados
-    ├── *.png            # Imagens geradas
-    └── *.txt            # Posts completos (legenda + hashtags)
+├── main.py                      # Aplicação CLI (terminal)
+├── main_gui.py                  # Aplicação GUI (interface gráfica) ⭐
+├── openai_service.py            # Serviço de integração com OpenAI
+├── requirements.txt             # Dependências do projeto
+├── requirements-dev.txt         # Dependências para build
+├── .env.example                # Exemplo de configuração
+├── .env                        # Suas configurações (não versionado)
+├── .gitignore                  # Arquivos ignorados
+├── README.md                   # Documentação principal
+├── BUILD_WINDOWS.md            # Guia para build Windows
+├── setup.sh                    # Instalação Linux/Mac
+├── setup.bat                   # Instalação Windows
+├── build_windows.bat           # Build executável CLI
+├── build_windows_gui.bat       # Build executável GUI ⭐
+├── build_windows_both.bat      # Build CLI + GUI ⭐
+├── GeradordePosts.spec         # Config PyInstaller CLI
+├── GeradordePosts_GUI.spec     # Config PyInstaller GUI ⭐
+└── generated_images/           # Imagens e posts gerados
+    ├── *.png                  # Imagens geradas
+    └── *.txt                  # Posts completos
 ```
 
 ## 🛠️ Tecnologias Utilizadas

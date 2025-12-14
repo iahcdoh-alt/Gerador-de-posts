@@ -1,6 +1,20 @@
 # 🪟 Como Gerar Executável Windows (.exe)
 
-Este guia mostra como transformar a aplicação Python em um executável Windows que pode ser executado sem precisar do Python instalado.
+Este guia mostra como transformar a aplicação Python em executáveis Windows que podem ser executados sem precisar do Python instalado.
+
+## 🎨 Duas Versões Disponíveis
+
+### GUI (Interface Gráfica) - RECOMENDADO ⭐
+- Interface moderna com janelas, botões e preview de imagens
+- Mais intuitivo e visual
+- Ideal para usuários finais
+- Arquivo: `GeradordePosts_GUI.exe`
+
+### CLI (Terminal)
+- Interface de linha de comando tradicional
+- Texto e navegação por menu
+- Ideal para desenvolvedores
+- Arquivo: `GeradordePosts.exe`
 
 ## 📋 Pré-requisitos
 
@@ -10,27 +24,42 @@ Este guia mostra como transformar a aplicação Python em um executável Windows
 
 ## 🚀 Método 1: Build Automático (Recomendado)
 
-### Passo a Passo
+### Opção A: Gerar APENAS a Versão GUI (Recomendado)
 
-1. **Abra o Prompt de Comando ou PowerShell**
-   - Navegue até a pasta do projeto
+```cmd
+build_windows_gui.bat
+```
 
-2. **Execute o script de build**
-   ```cmd
-   build_windows.bat
-   ```
+**Resultado:** `dist\GeradordePosts_GUI.exe` - Interface gráfica moderna
 
-3. **Aguarde o processo**
-   - O script vai:
-     - Criar ambiente virtual
-     - Instalar PyInstaller
-     - Instalar todas as dependências
-     - Gerar o executável
-     - Copiar arquivos necessários
+### Opção B: Gerar APENAS a Versão CLI
 
-4. **Executável gerado**
-   - Localização: `dist\GeradordePosts.exe`
-   - Tamanho aproximado: 50-100 MB
+```cmd
+build_windows.bat
+```
+
+**Resultado:** `dist\GeradordePosts.exe` - Interface de terminal
+
+### Opção C: Gerar AMBAS as Versões
+
+```cmd
+build_windows_both.bat
+```
+
+**Resultado:** Ambos os executáveis na pasta `dist\`
+
+### O que o script faz automaticamente:
+
+1. Cria ambiente virtual
+2. Instala PyInstaller
+3. Instala todas as dependências
+4. Gera o(s) executável(is)
+5. Copia arquivos necessários (.env, pasta de imagens)
+6. Configura estrutura completa
+
+### Tamanhos Aproximados:
+- GUI: ~60-110 MB
+- CLI: ~50-100 MB
 
 ## 🛠️ Método 2: Build Manual
 
@@ -45,6 +74,12 @@ pip install -r requirements.txt
 
 ### 2. Gerar o Executável
 
+**Para versão GUI:**
+```cmd
+pyinstaller GeradordePosts_GUI.spec
+```
+
+**Para versão CLI:**
 ```cmd
 pyinstaller GeradordePosts.spec
 ```
