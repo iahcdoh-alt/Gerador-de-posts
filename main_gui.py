@@ -96,28 +96,28 @@ class GeradorPostsGUI:
 
         # Frame principal com scroll
         main_frame = Frame(self.root, bg="#f0f0f0")
-        main_frame.pack(fill=BOTH, expand=True, padx=5, pady=5)
+        main_frame.pack(fill=BOTH, expand=True, padx=2, pady=2)
 
         # ===== TÍTULO =====
-        titulo_frame = Frame(main_frame, bg="#2c3e50", relief=RAISED, borderwidth=2)
-        titulo_frame.pack(fill=X, pady=10)
+        titulo_frame = Frame(main_frame, bg="#2c3e50", relief=RAISED, borderwidth=1)
+        titulo_frame.pack(fill=X, pady=2)
 
         Label(
             titulo_frame,
             text="📱 GERADOR DE POSTS PARA INSTAGRAM",
-            font=("Arial", 18, "bold"),
+            font=("Arial", 14, "bold"),
             bg="#2c3e50",
             fg="white",
-            pady=15
+            pady=5
         ).pack()
 
         Label(
             titulo_frame,
             text="Crie imagens, legendas e hashtags com IA",
-            font=("Arial", 10),
+            font=("Arial", 8),
             bg="#2c3e50",
             fg="#ecf0f1"
-        ).pack(pady=10)
+        ).pack(pady=2)
 
         # ===== CONTAINER PRINCIPAL COM DUAS COLUNAS =====
         container = Frame(main_frame, bg="#f0f0f0")
@@ -125,11 +125,11 @@ class GeradorPostsGUI:
 
         # COLUNA ESQUERDA - Formulário
         left_frame = Frame(container, bg="#f0f0f0")
-        left_frame.pack(side=LEFT, fill=BOTH, expand=True, padx=5)
+        left_frame.pack(side=LEFT, fill=BOTH, expand=True, padx=2)
 
         # COLUNA DIREITA - Preview e Resultados
         right_frame = Frame(container, bg="#f0f0f0")
-        right_frame.pack(side=RIGHT, fill=BOTH, expand=True, padx=5)
+        right_frame.pack(side=RIGHT, fill=BOTH, expand=True, padx=2)
 
         # ===== FORMULÁRIO (COLUNA ESQUERDA) =====
 
@@ -167,79 +167,79 @@ class GeradorPostsGUI:
         frame = LabelFrame(
             parent,
             text="📌 Tipo de Post",
-            font=("Arial", 11, "bold"),
+            font=("Arial", 9, "bold"),
             bg="white",
             relief=GROOVE,
-            borderwidth=2
+            borderwidth=1
         )
-        frame.pack(fill=X, pady=5)
+        frame.pack(fill=X, pady=2)
 
         inner = Frame(frame, bg="white")
-        inner.pack(padx=10, pady=10)
+        inner.pack(padx=5, pady=5)
 
         Radiobutton(
             inner,
             text="📸 Feed (Post quadrado)",
             variable=self.tipo_post,
             value="feed",
-            font=("Arial", 10),
+            font=("Arial", 8),
             bg="white"
-        ).pack(anchor=W, pady=2)
+        ).pack(anchor=W, pady=1)
 
         Radiobutton(
             inner,
             text="🎥 Reel (Vídeo vertical)",
             variable=self.tipo_post,
             value="reel",
-            font=("Arial", 10),
+            font=("Arial", 8),
             bg="white"
-        ).pack(anchor=W, pady=2)
+        ).pack(anchor=W, pady=1)
 
         Radiobutton(
             inner,
             text="📱 Stories (História temporária)",
             variable=self.tipo_post,
             value="stories",
-            font=("Arial", 10),
+            font=("Arial", 8),
             bg="white"
-        ).pack(anchor=W, pady=2)
+        ).pack(anchor=W, pady=1)
 
     def criar_secao_nicho(self, parent):
         """Cria seção de entrada do nicho"""
         frame = LabelFrame(
             parent,
             text="🎯 Nicho do Conteúdo",
-            font=("Arial", 11, "bold"),
+            font=("Arial", 9, "bold"),
             bg="white",
             relief=GROOVE,
-            borderwidth=2
+            borderwidth=1
         )
-        frame.pack(fill=X, pady=5)
+        frame.pack(fill=X, pady=2)
 
         inner = Frame(frame, bg="white")
-        inner.pack(padx=10, pady=10, fill=X)
+        inner.pack(padx=5, pady=5, fill=X)
 
         Label(
             inner,
             text="Digite o nicho do seu post:",
-            font=("Arial", 9),
+            font=("Arial", 7),
             bg="white",
             fg="#555"
-        ).pack(anchor=W, pady=5)
+        ).pack(anchor=W, pady=2)
 
         entry = Entry(
             inner,
             textvariable=self.nicho,
-            font=("Arial", 11),
+            font=("Arial", 9),
             relief=SOLID,
             borderwidth=1
         )
-        entry.pack(fill=X, pady=5)
+        entry.pack(fill=X, pady=2)
 
         Label(
             inner,
-            text="Exemplos: Fitness, Moda, Tecnologia, Culinária, Viagens...",
-            font=("Arial", 8),
+            text="Exemplos: Fitness, Moda, Tecnologia, Culinária...",
+            font=("Arial", 7),
             bg="white",
             fg="#888"
         ).pack(anchor=W)
@@ -249,48 +249,48 @@ class GeradorPostsGUI:
         frame = LabelFrame(
             parent,
             text="🎨 Estilo da Imagem",
-            font=("Arial", 11, "bold"),
+            font=("Arial", 9, "bold"),
             bg="white",
             relief=GROOVE,
-            borderwidth=2
+            borderwidth=1
         )
-        frame.pack(fill=X, pady=5)
+        frame.pack(fill=X, pady=2)
 
         inner = Frame(frame, bg="white")
-        inner.pack(padx=10, pady=10)
+        inner.pack(padx=5, pady=5)
 
         Radiobutton(
             inner,
             text="📸 Fotografia Ultra Realista em HD",
             variable=self.estilo_imagem,
             value="realista",
-            font=("Arial", 10),
+            font=("Arial", 8),
             bg="white"
-        ).pack(anchor=W, pady=2)
+        ).pack(anchor=W, pady=1)
 
         Radiobutton(
             inner,
             text="🎨 Criação Artística / Ilustração",
             variable=self.estilo_imagem,
             value="artistico",
-            font=("Arial", 10),
+            font=("Arial", 8),
             bg="white"
-        ).pack(anchor=W, pady=2)
+        ).pack(anchor=W, pady=1)
 
     def criar_secao_tom(self, parent):
         """Cria seção de seleção do tom"""
         frame = LabelFrame(
             parent,
             text="🎭 Tom da Legenda",
-            font=("Arial", 11, "bold"),
+            font=("Arial", 9, "bold"),
             bg="white",
             relief=GROOVE,
-            borderwidth=2
+            borderwidth=1
         )
-        frame.pack(fill=X, pady=5)
+        frame.pack(fill=X, pady=2)
 
         inner = Frame(frame, bg="white")
-        inner.pack(padx=10, pady=10)
+        inner.pack(padx=5, pady=5)
 
         tons = [
             ("💼 Sério (Profissional)", "sério"),
@@ -307,107 +307,107 @@ class GeradorPostsGUI:
                 text=texto,
                 variable=self.tom,
                 value=valor,
-                font=("Arial", 10),
+                font=("Arial", 8),
                 bg="white"
-            ).pack(anchor=W, pady=2)
+            ).pack(anchor=W, pady=1)
 
     def criar_botoes_acao(self, parent):
         """Cria botões de ação"""
         frame = Frame(parent, bg="#f0f0f0")
-        frame.pack(fill=X, pady=10)
+        frame.pack(fill=X, pady=2)
 
         self.btn_gerar = Button(
             frame,
             text="🚀 GERAR POST",
             command=self.gerar_post,
-            font=("Arial", 12, "bold"),
+            font=("Arial", 10, "bold"),
             bg="#27ae60",
             fg="white",
             relief=RAISED,
-            borderwidth=3,
+            borderwidth=2,
             cursor="hand2",
-            height=2
+            height=1
         )
-        self.btn_gerar.pack(fill=X, pady=2)
+        self.btn_gerar.pack(fill=X, pady=1)
 
         btn_frame = Frame(frame, bg="#f0f0f0")
-        btn_frame.pack(fill=X, pady=5)
+        btn_frame.pack(fill=X, pady=2)
 
         Button(
             btn_frame,
             text="💾 Salvar Tudo",
             command=self.salvar_tudo,
-            font=("Arial", 10, "bold"),
+            font=("Arial", 8, "bold"),
             bg="#e74c3c",
             fg="white",
             relief=RAISED,
             cursor="hand2"
-        ).pack(fill=X, pady=2)
+        ).pack(fill=X, pady=1)
 
         btn_frame2 = Frame(frame, bg="#f0f0f0")
-        btn_frame2.pack(fill=X, pady=2)
+        btn_frame2.pack(fill=X, pady=1)
 
         Button(
             btn_frame2,
             text="💾 Salvar Imagem",
             command=self.salvar_imagem,
-            font=("Arial", 9),
+            font=("Arial", 7),
             bg="#3498db",
             fg="white",
             relief=RAISED,
             cursor="hand2"
-        ).pack(side=LEFT, fill=X, expand=True, padx=2)
+        ).pack(side=LEFT, fill=X, expand=True, padx=1)
 
         Button(
             btn_frame2,
             text="📋 Copiar Texto",
             command=self.copiar_texto,
-            font=("Arial", 9),
+            font=("Arial", 7),
             bg="#9b59b6",
             fg="white",
             relief=RAISED,
             cursor="hand2"
-        ).pack(side=RIGHT, fill=X, expand=True, padx=2)
+        ).pack(side=RIGHT, fill=X, expand=True, padx=1)
 
     def criar_barra_progresso(self, parent):
         """Cria barra de progresso"""
         frame = Frame(parent, bg="#f0f0f0")
-        frame.pack(fill=X, pady=5)
+        frame.pack(fill=X, pady=2)
 
         self.progresso = ttk.Progressbar(
             frame,
             mode='indeterminate',
-            length=300
+            length=200
         )
         self.progresso.pack(fill=X)
 
         self.label_status = Label(
             frame,
             text="Pronto para gerar!",
-            font=("Arial", 9),
+            font=("Arial", 7),
             bg="#f0f0f0",
             fg="#555"
         )
-        self.label_status.pack(pady=5)
+        self.label_status.pack(pady=2)
 
     def criar_preview_imagem(self, parent):
         """Cria área de preview da imagem"""
         frame = LabelFrame(
             parent,
             text="🖼️ Preview da Imagem",
-            font=("Arial", 11, "bold"),
+            font=("Arial", 9, "bold"),
             bg="white",
             relief=GROOVE,
-            borderwidth=2
+            borderwidth=1
         )
-        frame.pack(fill=BOTH, expand=True, pady=5)
+        frame.pack(fill=BOTH, expand=True, pady=2)
 
         self.canvas_imagem = Canvas(
             frame,
             bg="#e0e0e0",
             highlightthickness=0
         )
-        self.canvas_imagem.pack(fill=BOTH, expand=True, padx=10, pady=10)
+        self.canvas_imagem.pack(fill=BOTH, expand=True, padx=5, pady=5)
 
         # Placeholder
         self.canvas_imagem.create_text(
@@ -422,22 +422,22 @@ class GeradorPostsGUI:
         frame = LabelFrame(
             parent,
             text="📝 Legenda e Hashtags",
-            font=("Arial", 11, "bold"),
+            font=("Arial", 9, "bold"),
             bg="white",
             relief=GROOVE,
-            borderwidth=2
+            borderwidth=1
         )
-        frame.pack(fill=BOTH, expand=True, pady=5)
+        frame.pack(fill=BOTH, expand=True, pady=2)
 
         self.texto_resultado = scrolledtext.ScrolledText(
             frame,
-            font=("Arial", 10),
+            font=("Arial", 8),
             wrap=WORD,
-            height=10,
+            height=8,
             relief=SOLID,
             borderwidth=1
         )
-        self.texto_resultado.pack(fill=BOTH, expand=True, padx=10, pady=10)
+        self.texto_resultado.pack(fill=BOTH, expand=True, padx=5, pady=5)
         self.texto_resultado.insert(1.0, "A legenda e hashtags aparecerão aqui após a geração...")
         self.texto_resultado.config(state=DISABLED)
 
