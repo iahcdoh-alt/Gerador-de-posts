@@ -39,6 +39,7 @@ class GeradorPostsGUI:
         self.tipo_post = StringVar(value="feed")
         self.nicho = StringVar()
         self.tom = StringVar(value="sério")
+        self.estilo_imagem = StringVar(value="realista")
         self.openai_service = None
         self.imagem_gerada = None
         self.legenda_gerada = ""
@@ -136,6 +137,9 @@ class GeradorPostsGUI:
 
         # Nicho
         self.criar_secao_nicho(left_frame)
+
+        # Estilo da Imagem
+        self.criar_secao_estilo_imagem(left_frame)
 
         # Tom da Legenda
         self.criar_secao_tom(left_frame)
@@ -238,6 +242,39 @@ class GeradorPostsGUI:
             bg="white",
             fg="#888"
         ).pack(anchor=W)
+
+    def criar_secao_estilo_imagem(self, parent):
+        """Cria seção de seleção do estilo da imagem"""
+        frame = LabelFrame(
+            parent,
+            text="🎨 Estilo da Imagem",
+            font=("Arial", 11, "bold"),
+            bg="white",
+            relief=GROOVE,
+            borderwidth=2
+        )
+        frame.pack(fill=X, pady=5)
+
+        inner = Frame(frame, bg="white")
+        inner.pack(padx=10, pady=10)
+
+        Radiobutton(
+            inner,
+            text="📸 Fotografia Ultra Realista em HD",
+            variable=self.estilo_imagem,
+            value="realista",
+            font=("Arial", 10),
+            bg="white"
+        ).pack(anchor=W, pady=2)
+
+        Radiobutton(
+            inner,
+            text="🎨 Criação Artística / Ilustração",
+            variable=self.estilo_imagem,
+            value="artistico",
+            font=("Arial", 10),
+            bg="white"
+        ).pack(anchor=W, pady=2)
 
     def criar_secao_tom(self, parent):
         """Cria seção de seleção do tom"""
@@ -472,10 +509,11 @@ class GeradorPostsGUI:
             tipo = self.tipo_post.get()
             nicho = self.nicho.get()
             tom = self.tom.get()
+            estilo = self.estilo_imagem.get()
 
             # Gerar imagem
             self.root.after(0, lambda: self.label_status.config(text="🎨 Gerando imagem..."))
-            self.imagem_gerada = self.openai_service.gerar_imagem(tipo, nicho, tom)
+            self.imagem_gerada = self.openai_service.gerar_imagem(tipo, nicho, tom, estilo)
 
             # Gerar legenda
             self.root.after(0, lambda: self.label_status.config(text="✍️ Gerando legenda..."))

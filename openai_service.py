@@ -24,7 +24,7 @@ class OpenAIService:
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
 
-    def gerar_imagem(self, tipo_post, nicho, tom):
+    def gerar_imagem(self, tipo_post, nicho, tom, estilo="realista"):
         """
         Gera uma imagem usando DALL-E 3
 
@@ -32,6 +32,7 @@ class OpenAIService:
             tipo_post (str): Tipo de post (feed, reel, stories)
             nicho (str): Nicho do conteúdo
             tom (str): Tom da comunicação
+            estilo (str): Estilo da imagem (realista ou artistico)
 
         Returns:
             str: Caminho do arquivo da imagem gerada
@@ -46,7 +47,7 @@ class OpenAIService:
         size = dimensoes.get(tipo_post, "1024x1024")
 
         # Criar prompt para geração de imagem
-        prompt = self._criar_prompt_imagem(nicho, tom, tipo_post)
+        prompt = self._criar_prompt_imagem(nicho, tom, tipo_post, estilo)
 
         print(f"\n🎨 Gerando imagem para {tipo_post}...")
         print(f"📝 Prompt: {prompt[:100]}...")
@@ -167,7 +168,7 @@ class OpenAIService:
             print(f"❌ Erro ao gerar hashtags: {e}")
             return []
 
-    def _criar_prompt_imagem(self, nicho, tom, tipo_post):
+    def _criar_prompt_imagem(self, nicho, tom, tipo_post, estilo_imagem="realista"):
         """Cria prompt otimizado para geração de imagem"""
 
         estilos_tom = {
@@ -179,7 +180,7 @@ class OpenAIService:
             "luxuoso": "elegant, premium, sophisticated, high-end style"
         }
 
-        estilo = estilos_tom.get(tom.lower(), "modern, engaging style")
+        estilo_tom_texto = estilos_tom.get(tom.lower(), "modern, engaging style")
 
         tipo_contexto = {
             "feed": "Instagram feed post",
@@ -189,12 +190,32 @@ class OpenAIService:
 
         contexto = tipo_contexto.get(tipo_post, "Instagram post")
 
+        # Definir estilo de renderização baseado na escolha do usuário
+        if estilo_imagem == "realista":
+            estilo_render = """
+            Ultra-realistic, high-definition photography style.
+            Shot with professional camera, perfect lighting, sharp focus.
+            Photorealistic, hyper-detailed, 8K quality, RAW photo quality.
+            Natural colors, professional composition, magazine-quality photography.
+            """
+        else:  # artistico
+            estilo_render = """
+            Artistic illustration, creative design, digital art style.
+            Vibrant colors, artistic interpretation, stylized composition.
+            Modern graphic design, creative illustration, artistic rendering.
+            Unique visual style, creative expression, designer quality.
+            """
+
         prompt = f"""
         Create a visually stunning image for {contexto} about {nicho}.
-        Style: {estilo}
+
+        Rendering Style: {estilo_render}
+
+        Mood/Tone: {estilo_tom_texto}
+
         The image should be eye-catching, professional, and perfect for social media.
         No text or watermarks in the image.
-        High quality, modern design, {estilo}.
+        High quality composition.
         """
 
         return prompt
