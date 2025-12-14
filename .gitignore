@@ -42,3 +42,8 @@ generated_images/
 
 # Logs
 *.log
+
+# PyInstaller
+*.spec.backup
+*.manifest
+*.exe

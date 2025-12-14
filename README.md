@@ -122,6 +122,32 @@ python main.py
 👉 Escolha o tom da legenda (1-6): 5
 ```
 
+## 🪟 Versão Windows (Executável .exe)
+
+Você pode gerar um executável Windows standalone que não precisa do Python instalado!
+
+### Gerar Executável
+
+**Método Rápido:**
+```cmd
+build_windows.bat
+```
+
+Isso criará `dist\GeradordePosts.exe` que pode ser executado em qualquer Windows 10/11.
+
+### Documentação Completa
+
+Para instruções detalhadas sobre como gerar e distribuir o executável Windows, consulte:
+📖 **[BUILD_WINDOWS.md](BUILD_WINDOWS.md)**
+
+### Vantagens do Executável
+
+- ✅ Não precisa instalar Python
+- ✅ Executável standalone (~50-100 MB)
+- ✅ Fácil de distribuir
+- ✅ Interface idêntica à versão Python
+- ✅ Funciona em qualquer Windows 10/11
+
 ## 📁 Estrutura do Projeto
 
 ```
@@ -129,10 +155,16 @@ Gerador-de-posts/
 ├── main.py                 # Aplicação principal (interface CLI)
 ├── openai_service.py       # Serviço de integração com OpenAI
 ├── requirements.txt        # Dependências do projeto
+├── requirements-dev.txt    # Dependências para build (PyInstaller)
 ├── .env.example           # Exemplo de arquivo de configuração
 ├── .env                   # Suas configurações (não versionado)
 ├── .gitignore            # Arquivos ignorados pelo Git
-├── README.md             # Documentação
+├── README.md             # Documentação principal
+├── BUILD_WINDOWS.md      # Guia para build Windows
+├── setup.sh              # Script de instalação Linux/Mac
+├── setup.bat             # Script de instalação Windows
+├── build_windows.bat     # Script para gerar .exe
+├── GeradordePosts.spec   # Configuração PyInstaller
 └── generated_images/     # Pasta com imagens e posts gerados
     ├── *.png            # Imagens geradas
     └── *.txt            # Posts completos (legenda + hashtags)

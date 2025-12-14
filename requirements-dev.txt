@@ -1,0 +1,5 @@
+# Dependências de desenvolvimento
+# Use este arquivo para gerar o executável Windows
+
+pyinstaller>=6.0.0
+auto-py-to-exe>=2.40.0
