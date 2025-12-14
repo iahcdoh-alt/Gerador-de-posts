@@ -98,7 +98,7 @@ class GeradorPostsGUI:
 
         # ===== TÍTULO =====
         titulo_frame = Frame(main_frame, bg="#2c3e50", relief=RAISED, borderwidth=2)
-        titulo_frame.pack(fill=X, pady=(0, 10))
+        titulo_frame.pack(fill=X, pady=10)
 
         Label(
             titulo_frame,
@@ -114,9 +114,8 @@ class GeradorPostsGUI:
             text="Crie imagens, legendas e hashtags com IA",
             font=("Arial", 10),
             bg="#2c3e50",
-            fg="#ecf0f1",
-            pady=(0, 10)
-        ).pack()
+            fg="#ecf0f1"
+        ).pack(pady=10)
 
         # ===== CONTAINER PRINCIPAL COM DUAS COLUNAS =====
         container = Frame(main_frame, bg="#f0f0f0")
@@ -124,11 +123,11 @@ class GeradorPostsGUI:
 
         # COLUNA ESQUERDA - Formulário
         left_frame = Frame(container, bg="#f0f0f0")
-        left_frame.pack(side=LEFT, fill=BOTH, expand=True, padx=(0, 5))
+        left_frame.pack(side=LEFT, fill=BOTH, expand=True, padx=5)
 
         # COLUNA DIREITA - Preview e Resultados
         right_frame = Frame(container, bg="#f0f0f0")
-        right_frame.pack(side=RIGHT, fill=BOTH, expand=True, padx=(5, 0))
+        right_frame.pack(side=RIGHT, fill=BOTH, expand=True, padx=5)
 
         # ===== FORMULÁRIO (COLUNA ESQUERDA) =====
 
@@ -221,7 +220,7 @@ class GeradorPostsGUI:
             font=("Arial", 9),
             bg="white",
             fg="#555"
-        ).pack(anchor=W, pady=(0, 5))
+        ).pack(anchor=W, pady=5)
 
         entry = Entry(
             inner,
@@ -230,7 +229,7 @@ class GeradorPostsGUI:
             relief=SOLID,
             borderwidth=1
         )
-        entry.pack(fill=X, pady=(0, 5))
+        entry.pack(fill=X, pady=5)
 
         Label(
             inner,
@@ -305,7 +304,7 @@ class GeradorPostsGUI:
             fg="white",
             relief=RAISED,
             cursor="hand2"
-        ).pack(side=LEFT, fill=X, expand=True, padx=(0, 2))
+        ).pack(side=LEFT, fill=X, expand=True, padx=2)
 
         Button(
             btn_frame,
@@ -316,7 +315,7 @@ class GeradorPostsGUI:
             fg="white",
             relief=RAISED,
             cursor="hand2"
-        ).pack(side=RIGHT, fill=X, expand=True, padx=(2, 0))
+        ).pack(side=RIGHT, fill=X, expand=True, padx=2)
 
     def criar_barra_progresso(self, parent):
         """Cria barra de progresso"""
@@ -349,7 +348,7 @@ class GeradorPostsGUI:
             relief=GROOVE,
             borderwidth=2
         )
-        frame.pack(fill=BOTH, expand=True, pady=(0, 5))
+        frame.pack(fill=BOTH, expand=True, pady=5)
 
         self.canvas_imagem = Canvas(
             frame,
@@ -376,7 +375,7 @@ class GeradorPostsGUI:
             relief=GROOVE,
             borderwidth=2
         )
-        frame.pack(fill=BOTH, expand=True, pady=(5, 0))
+        frame.pack(fill=BOTH, expand=True, pady=5)
 
         self.texto_resultado = scrolledtext.ScrolledText(
             frame,
