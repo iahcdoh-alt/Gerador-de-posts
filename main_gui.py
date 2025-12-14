@@ -297,9 +297,23 @@ class GeradorPostsGUI:
 
         Button(
             btn_frame,
+            text="💾 Salvar Tudo",
+            command=self.salvar_tudo,
+            font=("Arial", 10, "bold"),
+            bg="#e74c3c",
+            fg="white",
+            relief=RAISED,
+            cursor="hand2"
+        ).pack(fill=X, pady=2)
+
+        btn_frame2 = Frame(frame, bg="#f0f0f0")
+        btn_frame2.pack(fill=X, pady=2)
+
+        Button(
+            btn_frame2,
             text="💾 Salvar Imagem",
             command=self.salvar_imagem,
-            font=("Arial", 10),
+            font=("Arial", 9),
             bg="#3498db",
             fg="white",
             relief=RAISED,
@@ -307,10 +321,10 @@ class GeradorPostsGUI:
         ).pack(side=LEFT, fill=X, expand=True, padx=2)
 
         Button(
-            btn_frame,
+            btn_frame2,
             text="📋 Copiar Texto",
             command=self.copiar_texto,
-            font=("Arial", 10),
+            font=("Arial", 9),
             bg="#9b59b6",
             fg="white",
             relief=RAISED,
@@ -535,6 +549,78 @@ class GeradorPostsGUI:
         self.progresso.stop()
         self.btn_gerar.config(state=NORMAL)
         self.label_status.config(text="Pronto para gerar!")
+
+    def salvar_tudo(self):
+        """Salva imagem e texto completo em uma pasta"""
+        if not self.imagem_gerada or not os.path.exists(self.imagem_gerada):
+            messagebox.showwarning(
+                "Sem Conteúdo",
+                "Nenhum conteúdo foi gerado ainda!\n\nGere um post primeiro."
+            )
+            return
+
+        # Pedir pasta de destino
+        pasta = filedialog.askdirectory(
+            title="Escolha a pasta para salvar o post completo"
+        )
+
+        if not pasta:
+            return
+
+        try:
+            import shutil
+            from datetime import datetime
+
+            # Nome base dos arquivos
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            tipo = self.tipo_post.get()
+            nicho = self.nicho.get().replace(" ", "_")
+            base_nome = f"post_{tipo}_{nicho}_{timestamp}"
+
+            # Salvar imagem
+            extensao_img = os.path.splitext(self.imagem_gerada)[1]
+            caminho_img = os.path.join(pasta, f"{base_nome}{extensao_img}")
+            shutil.copy(self.imagem_gerada, caminho_img)
+
+            # Salvar texto
+            caminho_txt = os.path.join(pasta, f"{base_nome}.txt")
+            with open(caminho_txt, 'w', encoding='utf-8') as f:
+                f.write("=" * 70 + "\n")
+                f.write("GERADOR DE POSTS PARA INSTAGRAM\n")
+                f.write("=" * 70 + "\n\n")
+
+                f.write(f"Tipo de Post: {tipo.upper()}\n")
+                f.write(f"Nicho: {self.nicho.get()}\n")
+                f.write(f"Tom: {self.tom.get().capitalize()}\n")
+                f.write(f"Data: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\n\n")
+
+                f.write("=" * 70 + "\n")
+                f.write("LEGENDA\n")
+                f.write("=" * 70 + "\n")
+                f.write(f"{self.legenda_gerada}\n\n")
+
+                f.write("=" * 70 + "\n")
+                f.write(f"HASHTAGS ({len(self.hashtags_geradas)})\n")
+                f.write("=" * 70 + "\n")
+                f.write(" ".join(self.hashtags_geradas) + "\n\n")
+
+                f.write("=" * 70 + "\n")
+                f.write("LEGENDA COMPLETA COM HASHTAGS\n")
+                f.write("=" * 70 + "\n")
+                f.write(f"{self.legenda_gerada}\n\n")
+                f.write(" ".join(self.hashtags_geradas) + "\n")
+
+            messagebox.showinfo(
+                "Sucesso! 🎉",
+                f"Post completo salvo em:\n\n"
+                f"📂 Pasta: {pasta}\n\n"
+                f"📄 Arquivos:\n"
+                f"• {os.path.basename(caminho_img)}\n"
+                f"• {os.path.basename(caminho_txt)}"
+            )
+
+        except Exception as e:
+            messagebox.showerror("Erro", f"Erro ao salvar arquivos:\n{e}")
 
     def salvar_imagem(self):
         """Salva a imagem em local escolhido pelo usuário"""
