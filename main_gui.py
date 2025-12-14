@@ -27,13 +27,14 @@ class GeradorPostsGUI:
         self.root = root
         self.root.title("Gerador de Posts para Instagram")
 
-        # Configurar geometria com valores seguros
+        # Configurar geometria com valores seguros - aumentado para caber tudo
         try:
-            self.root.geometry("900x700")
+            self.root.geometry("1000x800")
         except:
-            self.root.geometry("800x600")
+            self.root.geometry("900x750")
 
         self.root.resizable(True, True)
+        self.root.minsize(900, 700)
 
         # Variáveis
         self.tipo_post = StringVar(value="feed")
