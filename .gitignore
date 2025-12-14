@@ -47,3 +47,7 @@ generated_images/
 *.spec.backup
 *.manifest
 *.exe
+
+# Inno Setup
+installer_output/
+Output/
