@@ -14,12 +14,25 @@ from PIL import Image, ImageTk
 from dotenv import load_dotenv
 from openai_service import OpenAIService
 
+# Configurar DPI awareness para Windows
+try:
+    from ctypes import windll
+    windll.shcore.SetProcessDpiAwareness(1)
+except:
+    pass
+
 
 class GeradorPostsGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Gerador de Posts para Instagram")
-        self.root.geometry("900x700")
+
+        # Configurar geometria com valores seguros
+        try:
+            self.root.geometry("900x700")
+        except:
+            self.root.geometry("800x600")
+
         self.root.resizable(True, True)
 
         # Variáveis
@@ -81,7 +94,7 @@ class GeradorPostsGUI:
 
         # Frame principal com scroll
         main_frame = Frame(self.root, bg="#f0f0f0")
-        main_frame.pack(fill=BOTH, expand=True, padx=10, pady=10)
+        main_frame.pack(fill=BOTH, expand=True, padx=5, pady=5)
 
         # ===== TÍTULO =====
         titulo_frame = Frame(main_frame, bg="#2c3e50", relief=RAISED, borderwidth=2)
