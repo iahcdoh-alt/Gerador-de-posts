@@ -1,24 +1,33 @@
 """
-Serviço para integração com OpenAI API
-Responsável pela geração de imagens, legendas e hashtags
+Serviço para integração com APIs de geração de conteúdo
+Suporta OpenAI (DALL-E, GPT-4) e Replicate (Flux.1)
 """
 
 import os
 import requests
 from openai import OpenAI
+import replicate
 from datetime import datetime
 
 
 class OpenAIService:
-    def __init__(self, api_key):
+    def __init__(self, api_key, replicate_key=None, provider="replicate"):
         """
-        Inicializa o serviço OpenAI
+        Inicializa o serviço de geração
 
         Args:
-            api_key (str): Chave da API OpenAI
+            api_key (str): Chave da API OpenAI (para texto)
+            replicate_key (str): Chave da API Replicate (para imagens)
+            provider (str): Provedor de imagens: "openai" ou "replicate"
         """
         self.client = OpenAI(api_key=api_key)
+        self.replicate_key = replicate_key
+        self.provider = provider
         self.output_dir = "generated_images"
+
+        # Configurar Replicate se disponível
+        if replicate_key:
+            os.environ["REPLICATE_API_TOKEN"] = replicate_key
 
         # Criar diretório de saída se não existir
         if not os.path.exists(self.output_dir):
@@ -26,7 +35,7 @@ class OpenAIService:
 
     def gerar_imagem(self, tipo_post, nicho, tom, estilo="realista"):
         """
-        Gera uma imagem usando DALL-E 3
+        Gera uma imagem usando o provedor configurado (Replicate Flux.1 ou OpenAI DALL-E)
 
         Args:
             tipo_post (str): Tipo de post (feed, reel, stories)
@@ -37,6 +46,60 @@ class OpenAIService:
         Returns:
             str: Caminho do arquivo da imagem gerada
         """
+        if self.provider == "replicate" and self.replicate_key:
+            return self._gerar_imagem_replicate(tipo_post, nicho, tom, estilo)
+        else:
+            return self._gerar_imagem_openai(tipo_post, nicho, tom, estilo)
+
+    def _gerar_imagem_replicate(self, tipo_post, nicho, tom, estilo):
+        """Gera imagem usando Replicate Flux.1"""
+        # Definir dimensões baseado no tipo de post
+        dimensoes = {
+            "feed": {"width": 1024, "height": 1024},      # Post quadrado
+            "reel": {"width": 1024, "height": 1792},      # Formato vertical 9:16
+            "stories": {"width": 1024, "height": 1792}    # Formato vertical 9:16
+        }
+
+        dims = dimensoes.get(tipo_post, {"width": 1024, "height": 1024})
+
+        # Criar prompt para geração de imagem
+        prompt = self._criar_prompt_imagem(nicho, tom, tipo_post, estilo)
+
+        print(f"\n🎨 Gerando imagem com Flux.1 para {tipo_post}...")
+        print(f"📝 Prompt: {prompt[:100]}...")
+
+        try:
+            output = replicate.run(
+                "black-forest-labs/flux-1.1-pro",
+                input={
+                    "prompt": prompt,
+                    "width": dims["width"],
+                    "height": dims["height"],
+                    "num_inference_steps": 28,
+                    "guidance_scale": 3.5
+                }
+            )
+
+            # Output é uma URL da imagem
+            image_url = output if isinstance(output, str) else output[0]
+
+            # Baixar e salvar a imagem
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"{self.output_dir}/{tipo_post}_{nicho.replace(' ', '_')}_{timestamp}.png"
+
+            img_data = requests.get(image_url).content
+            with open(filename, 'wb') as handler:
+                handler.write(img_data)
+
+            print(f"✅ Imagem Flux.1 salva em: {filename}")
+            return filename
+
+        except Exception as e:
+            print(f"❌ Erro ao gerar imagem com Flux.1: {e}")
+            raise Exception(f"Erro ao conectar com Replicate: {str(e)}")
+
+    def _gerar_imagem_openai(self, tipo_post, nicho, tom, estilo):
+        """Gera imagem usando OpenAI DALL-E 3"""
         # Definir dimensões baseado no tipo de post
         dimensoes = {
             "feed": "1024x1024",      # Post quadrado
@@ -49,7 +112,7 @@ class OpenAIService:
         # Criar prompt para geração de imagem
         prompt = self._criar_prompt_imagem(nicho, tom, tipo_post, estilo)
 
-        print(f"\n🎨 Gerando imagem para {tipo_post}...")
+        print(f"\n🎨 Gerando imagem com DALL-E 3 para {tipo_post}...")
         print(f"📝 Prompt: {prompt[:100]}...")
 
         try:
@@ -71,12 +134,12 @@ class OpenAIService:
             with open(filename, 'wb') as handler:
                 handler.write(img_data)
 
-            print(f"✅ Imagem salva em: {filename}")
+            print(f"✅ Imagem DALL-E salva em: {filename}")
             return filename
 
         except Exception as e:
-            print(f"❌ Erro ao gerar imagem: {e}")
-            return None
+            print(f"❌ Erro ao gerar imagem com DALL-E: {e}")
+            raise Exception(f"Erro ao conectar com OpenAI: {str(e)}")
 
     def gerar_legenda(self, tipo_post, nicho, tom):
         """

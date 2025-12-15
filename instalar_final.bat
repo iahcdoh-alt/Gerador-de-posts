@@ -53,10 +53,25 @@ echo ================================================
 echo INSTALACAO CONCLUIDA COM SUCESSO!
 echo ================================================
 echo.
-echo Versao moderna com TTKBootstrap instalada!
+echo Versao moderna com Flux.1 instalada!
+echo - Imagens: Replicate Flux.1 (qualidade superior!)
+echo - Legendas: OpenAI GPT-4
 echo - Tema Dark/Light
 echo - Visual moderno
 echo - Rodape Integrius Automacoes
+echo.
+echo ================================================
+echo IMPORTANTE: Configure suas API Keys!
+echo ================================================
+echo.
+echo Voce precisa de 2 chaves no arquivo .env:
+echo.
+echo 1. OPENAI_API_KEY (para legendas/hashtags)
+echo    Obtenha em: https://platform.openai.com/api-keys
+echo.
+echo 2. REPLICATE_API_KEY (para imagens Flux.1)
+echo    Obtenha em: https://replicate.com/account/api-tokens
+echo    Leia o guia: REPLICATE_SETUP.md
 echo.
 echo ================================================
 echo TESTANDO APLICACAO...
@@ -71,7 +86,11 @@ if %ERRORLEVEL% NEQ 0 (
     echo ERRO AO EXECUTAR!
     echo ================================================
     echo.
-    echo Verifique o arquivo .env com sua chave da API
+    echo Verifique se configurou AMBAS as chaves no .env:
+    echo - OPENAI_API_KEY
+    echo - REPLICATE_API_KEY
+    echo.
+    echo Leia o guia: REPLICATE_SETUP.md
     echo.
     pause
     exit /b 1

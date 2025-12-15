@@ -54,28 +54,46 @@ class GeradorPostsModerno:
         self.root.geometry(f'{width}x{height}+{x}+{y}')
 
     def inicializar_openai(self):
-        """Inicializa o serviço OpenAI"""
+        """Inicializa os serviços de geração (OpenAI + Replicate)"""
         load_dotenv()
-        api_key = os.getenv("OPENAI_API_KEY")
+        openai_key = os.getenv("OPENAI_API_KEY")
+        replicate_key = os.getenv("REPLICATE_API_KEY")
 
-        if not api_key or api_key == "sua_chave_api_aqui":
+        if not openai_key or openai_key == "sua_chave_api_aqui":
             messagebox.showerror(
                 "Erro de Configuração",
                 "Chave da API OpenAI não encontrada!\n\n"
                 "Por favor:\n"
                 "1. Abra o arquivo .env\n"
-                "2. Adicione sua chave da OpenAI\n"
+                "2. Adicione sua chave da OpenAI (para texto)\n"
                 "3. Reinicie a aplicação"
             )
             self.root.destroy()
             sys.exit(1)
 
+        if not replicate_key or replicate_key == "sua_chave_replicate_aqui":
+            messagebox.showerror(
+                "Erro de Configuração",
+                "Chave da API Replicate não encontrada!\n\n"
+                "Por favor:\n"
+                "1. Crie uma conta em https://replicate.com\n"
+                "2. Copie sua API key\n"
+                "3. Adicione no arquivo .env como REPLICATE_API_KEY\n"
+                "4. Reinicie a aplicação"
+            )
+            self.root.destroy()
+            sys.exit(1)
+
         try:
-            self.openai_service = OpenAIService(api_key)
+            self.openai_service = OpenAIService(
+                api_key=openai_key,
+                replicate_key=replicate_key,
+                provider="replicate"  # Usar Replicate Flux.1 para imagens
+            )
         except Exception as e:
             messagebox.showerror(
                 "Erro de Conexão",
-                f"Erro ao conectar com OpenAI:\n{str(e)}"
+                f"Erro ao inicializar serviços:\n{str(e)}"
             )
             self.root.destroy()
             sys.exit(1)
