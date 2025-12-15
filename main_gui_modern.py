@@ -134,14 +134,21 @@ class GeradorPostsModerno(ctk.CTk):
         self.criar_preview_e_resultados(right_frame)
 
         # ===== RODAPÉ =====
-        footer = ctk.CTkFrame(self, corner_radius=0, height=35, fg_color=("gray80", "gray15"))
+        footer = ctk.CTkFrame(self, corner_radius=0, height=50, fg_color=("gray80", "gray15"))
         footer.pack(fill="x", side="bottom")
 
         ctk.CTkLabel(
             footer,
             text="Desenvolvido com ❤️ usando OpenAI",
             font=ctk.CTkFont(size=11)
-        ).pack(pady=8)
+        ).pack(pady=(8, 2))
+
+        ctk.CTkLabel(
+            footer,
+            text="Desenvolvido por Integrius Automações - Copyright 2025 - Todos os direitos reservados",
+            font=ctk.CTkFont(size=9),
+            text_color=("gray50", "gray60")
+        ).pack(pady=(0, 8))
 
     def criar_formulario(self, parent):
         """Cria o formulário de entrada"""
