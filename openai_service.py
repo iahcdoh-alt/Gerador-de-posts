@@ -725,14 +725,14 @@ class OpenAIService:
         Cria prompt para imagens motivacionais de Bom Dia
         """
         cenarios = {
-            "sucesso": "golden sunrise over mountain peak, achievement metaphor, inspiring vista",
-            "forca": "powerful ocean waves, strong tree, resilience imagery",
-            "positividade": "bright sunny morning, blooming flowers, joyful nature scene",
-            "foco": "clear path forward, focused beam of light, zen meditation setting",
-            "amor_proprio": "peaceful self-care scene, cozy morning routine, self-love imagery",
-            "metas": "arrow hitting target, clear road ahead, achievement visualization",
-            "esperanca": "rainbow after storm, new dawn, fresh beginning",
-            "paz": "calm lake reflection, peaceful zen garden, tranquil morning"
+            "sucesso": "golden sunrise over mountain peak, achievement metaphor, inspiring vista, OR person enjoying morning coffee by window with city view, successful daily routine",
+            "forca": "powerful ocean waves, strong tree, resilience imagery, OR athlete training at sunrise, determined person climbing stairs",
+            "positividade": "bright sunny morning, blooming flowers, joyful nature scene, OR happy person stretching by bedroom window, cheerful breakfast scene",
+            "foco": "clear path forward, focused beam of light, zen meditation setting, OR person writing goals in journal at desk, organized workspace morning light",
+            "amor_proprio": "peaceful self-care scene, cozy morning routine, self-love imagery, OR person meditating at home, enjoying tea in peaceful corner",
+            "metas": "arrow hitting target, clear road ahead, achievement visualization, OR person checking off tasks, planner with goals on wooden table",
+            "esperanca": "rainbow after storm, new dawn, fresh beginning, OR opening window to new day, person looking hopefully at sunrise from balcony",
+            "paz": "calm lake reflection, peaceful zen garden, tranquil morning, OR serene home corner with plants, peaceful reading nook morning light"
         }
 
         cenario = cenarios.get(categoria, "inspiring sunrise scene")

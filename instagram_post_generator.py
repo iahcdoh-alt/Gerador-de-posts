@@ -553,7 +553,7 @@ class InstagramPostGenerator(ttk.Window):
         ttk.Label(
             style_info,
             text="• Imagens fotográficas ultra-realistas\n"
-                 "• Cenários inspiradores (nascer do sol, natureza)\n"
+                 "• Cenários inspiradores (nascer do sol, natureza, cena do cotidiano)\n"
                  "• Cores vibrantes e profissionais\n"
                  "• Qualidade 8K, iluminação perfeita",
             font=("Segoe UI", 9),
