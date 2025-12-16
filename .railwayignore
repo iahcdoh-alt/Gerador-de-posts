@@ -1,0 +1,37 @@
+# Ignorar apps desktop
+main.py
+main_gui.py
+main_gui_modern.py
+main_gui_new.py
+instagram_post_generator.py
+
+# Ignorar scripts de build Windows
+*.bat
+*.spec
+
+# Ignorar documentação desnecessária
+BUILD_WINDOWS.md
+INSTALLER_INSTRUCTIONS.md
+MODERN_GUI_README.md
+REPLICATE_SETUP.md
+
+# Ignorar arquivos de desenvolvimento
+.git
+.gitignore
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info
+dist
+build
+.env
+
+# Ignorar arquivos temporários
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
