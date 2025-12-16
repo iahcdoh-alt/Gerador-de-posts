@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Posts Instagram | Integrius</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-mode">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">📱 Instagram Post Generator</h1>
+                <p class="subtitle">Imagens Hiper-Realistas com Flux.1 • Textos Profissionais com GPT-4</p>
+                <div class="header-controls">
+                    <button id="themeToggle" class="theme-toggle">
+                        <span class="theme-icon">🌙</span>
+                        <span class="theme-text">Modo Escuro</span>
+                    </button>
+                    <div class="status-badges">
+                        <span class="badge badge-success">✓ OpenAI</span>
+                        <span class="badge badge-success">✓ Flux.1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-button active" data-tab="posts-normais">
+                    📸 Posts Normais
+                </button>
+                <button class="tab-button" data-tab="bom-dia">
+                    🌅 Bom Dia Motivacional
+                </button>
+            </div>
+
+            <!-- Tab Content: Posts Normais -->
+            <div id="posts-normais" class="tab-content active">
+                <div class="grid-2col">
+                    <!-- Left Column: Form -->
+                    <div class="card">
+                        <h2 class="card-title">⚙️ Configurações do Post</h2>
+
+                        <form id="formPostNormal">
+                            <div class="form-group">
+                                <label class="form-label">📌 Tipo de Post</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="tipo_post" value="feed" checked>
+                                        <span>📸 Feed (1080x1080)</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="tipo_post" value="reel">
+                                        <span>🎥 Reel (1080x1920)</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="tipo_post" value="stories">
+                                        <span>📱 Stories (1080x1920)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">🎯 Nicho/Segmento</label>
+                                <input type="text" name="nicho" class="form-input" placeholder="Ex: Fitness, Tecnologia, Moda..." required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">💡 Tema do Post</label>
+                                <input type="text" name="tema" class="form-input" placeholder="Ex: Dicas de produtividade..." required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">🎭 Tom da Comunicação</label>
+                                <select name="tom" class="form-select">
+                                    <option value="profissional">💼 Profissional</option>
+                                    <option value="inspiracional">✨ Inspiracional</option>
+                                    <option value="educativo">📚 Educativo</option>
+                                    <option value="entusiasta">🎉 Entusiasta</option>
+                                    <option value="premium">👑 Premium</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">🎯 Call to Action</label>
+                                <select name="cta" class="form-select">
+                                    <option value="comentar">💬 Comentar</option>
+                                    <option value="curtir">❤️ Curtir</option>
+                                    <option value="compartilhar">🔄 Compartilhar</option>
+                                    <option value="seguir">👥 Seguir</option>
+                                    <option value="salvar">💾 Salvar</option>
+                                    <option value="link_bio">🔗 Link na Bio</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-large">
+                                🚀 GERAR POST PROFISSIONAL
+                            </button>
+
+                            <div class="progress-container" id="progressNormal" style="display: none;">
+                                <div class="progress-bar"></div>
+                                <p class="progress-text">Gerando seu post...</p>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right Column: Preview -->
+                    <div class="card">
+                        <h2 class="card-title">📊 Preview e Resultados</h2>
+
+                        <div class="preview-section">
+                            <h3 class="preview-title">🖼️ Imagem</h3>
+                            <div id="imagePreviewNormal" class="image-preview">
+                                <div class="image-placeholder">
+                                    <p>📷</p>
+                                    <p>A imagem aparecerá aqui</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="preview-section">
+                            <h3 class="preview-title">📝 Legenda e Hashtags</h3>
+                            <textarea id="textResultNormal" class="text-result" readonly>Aguardando geração...</textarea>
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn btn-secondary" onclick="copiarTexto('textResultNormal')">
+                                📋 Copiar Texto
+                            </button>
+                            <button class="btn btn-secondary" onclick="baixarImagem('imagePreviewNormal')">
+                                💾 Baixar Imagem
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Bom Dia -->
+            <div id="bom-dia" class="tab-content">
+                <div class="grid-2col">
+                    <!-- Left Column: Form -->
+                    <div class="card">
+                        <h2 class="card-title">⚙️ Configurações da Mensagem</h2>
+
+                        <div class="info-box">
+                            <p>ℹ️ Formato: Imagem Quadrada 1:1 (1080x1080)</p>
+                        </div>
+
+                        <form id="formBomDia">
+                            <div class="form-group">
+                                <label class="form-label">🎯 Categoria Motivacional</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="categoria" value="sucesso" checked>
+                                        <span>🏆 Sucesso e Conquistas</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="categoria" value="forca">
+                                        <span>💪 Força e Determinação</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="categoria" value="positividade">
+                                        <span>🌟 Positividade e Gratidão</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="categoria" value="foco">
+                                        <span>🚀 Foco e Produtividade</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="categoria" value="amor_proprio">
+                                        <span>❤️ Amor Próprio</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="categoria" value="metas">
+                                        <span>🎯 Metas e Objetivos</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="categoria" value="esperanca">
+                                        <span>🌈 Esperança e Fé</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="categoria" value="paz">
+                                        <span>🧘 Paz e Equilíbrio</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">💭 Subtema (Opcional)</label>
+                                <input type="text" name="subtema" class="form-input" placeholder="Ex: Segundas-feiras, Novos começos...">
+                            </div>
+
+                            <button type="submit" class="btn btn-warning btn-large">
+                                🌅 GERAR BOM DIA MOTIVACIONAL
+                            </button>
+
+                            <div class="progress-container" id="progressBomDia" style="display: none;">
+                                <div class="progress-bar"></div>
+                                <p class="progress-text">Gerando mensagem motivacional...</p>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right Column: Preview -->
+                    <div class="card">
+                        <h2 class="card-title">📊 Preview e Resultados</h2>
+
+                        <div class="preview-section">
+                            <h3 class="preview-title">🖼️ Imagem (1:1)</h3>
+                            <div id="imagePreviewBomDia" class="image-preview">
+                                <div class="image-placeholder">
+                                    <p>🌅</p>
+                                    <p>A imagem aparecerá aqui</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="preview-section">
+                            <h3 class="preview-title">💬 Mensagem Motivacional</h3>
+                            <textarea id="textResultBomDia" class="text-result" readonly>Aguardando geração...</textarea>
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn btn-secondary" onclick="copiarTexto('textResultBomDia')">
+                                📋 Copiar Texto
+                            </button>
+                            <button class="btn btn-secondary" onclick="baixarImagem('imagePreviewBomDia')">
+                                💾 Baixar Imagem
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Desenvolvido por Integrius Automações • Copyright 2025 • Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
