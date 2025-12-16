@@ -38,6 +38,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Criar diretórios necessários se não existirem
+Path("generated_images").mkdir(exist_ok=True)
+Path("static").mkdir(exist_ok=True)
+Path("templates").mkdir(exist_ok=True)
+
 # Servir arquivos estáticos
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/generated_images", StaticFiles(directory="generated_images"), name="generated_images")
