@@ -80,8 +80,18 @@ class OpenAIService:
                 }
             )
 
-            # Output é uma URL da imagem
-            image_url = output if isinstance(output, str) else output[0]
+            # Output pode ser FileOutput, string, ou lista
+            if hasattr(output, 'url'):
+                image_url = output.url
+            elif isinstance(output, str):
+                image_url = output
+            elif isinstance(output, list) and len(output) > 0:
+                if hasattr(output[0], 'url'):
+                    image_url = output[0].url
+                else:
+                    image_url = output[0]
+            else:
+                image_url = str(output)
 
             # Baixar e salvar a imagem
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -347,7 +357,18 @@ class OpenAIService:
                 }
             )
 
-            image_url = output if isinstance(output, str) else output[0]
+            # Output pode ser FileOutput, string, ou lista
+            if hasattr(output, 'url'):
+                image_url = output.url
+            elif isinstance(output, str):
+                image_url = output
+            elif isinstance(output, list) and len(output) > 0:
+                if hasattr(output[0], 'url'):
+                    image_url = output[0].url
+                else:
+                    image_url = output[0]
+            else:
+                image_url = str(output)
 
             # Salvar imagem
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -518,7 +539,18 @@ class OpenAIService:
                 }
             )
 
-            image_url = output if isinstance(output, str) else output[0]
+            # Output pode ser FileOutput, string, ou lista
+            if hasattr(output, 'url'):
+                image_url = output.url
+            elif isinstance(output, str):
+                image_url = output
+            elif isinstance(output, list) and len(output) > 0:
+                if hasattr(output[0], 'url'):
+                    image_url = output[0].url
+                else:
+                    image_url = output[0]
+            else:
+                image_url = str(output)
 
             # Salvar
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
