@@ -47,15 +47,14 @@ body {
 }
 
 .container {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1400px) {
     .container {
-        max-width: 1600px;
-        padding: 0 3rem;
+        max-width: 1100px;
     }
 }
 
@@ -187,15 +186,8 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
-}
-
-@media (min-width: 1600px) {
-    .grid-2col {
-        max-width: 1400px;
-        gap: 3rem;
-    }
 }
 
 @media (max-width: 968px) {
@@ -209,73 +201,40 @@ body {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 1rem;
-    padding: 2rem;
+    padding: 1.5rem;
     box-shadow: var(--shadow-lg);
 }
 
-@media (min-width: 1400px) {
-    .card {
-        padding: 2.5rem;
-    }
-}
-
 .card-title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     color: var(--text-primary);
-}
-
-@media (min-width: 1400px) {
-    .card-title {
-        font-size: 1.75rem;
-    }
 }
 
 /* ===== FORMS ===== */
 .form-group {
-    margin-bottom: 1.5rem;
-}
-
-@media (min-width: 1400px) {
-    .form-group {
-        margin-bottom: 1.75rem;
-    }
+    margin-bottom: 1.25rem;
 }
 
 .form-label {
     display: block;
     font-weight: 600;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     color: var(--text-primary);
-    font-size: 0.95rem;
-}
-
-@media (min-width: 1400px) {
-    .form-label {
-        font-size: 1rem;
-        margin-bottom: 0.875rem;
-    }
+    font-size: 0.9rem;
 }
 
 .form-input,
 .form-select {
     width: 100%;
-    padding: 0.875rem 1rem;
+    padding: 0.75rem 1rem;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: 0.5rem;
     color: var(--text-primary);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     transition: all 0.2s;
-}
-
-@media (min-width: 1400px) {
-    .form-input,
-    .form-select {
-        padding: 1rem 1.25rem;
-        font-size: 1rem;
-    }
 }
 
 .form-input:focus,
@@ -339,15 +298,8 @@ body {
 
 .btn-large {
     width: 100%;
-    padding: 1.25rem;
-    font-size: 1.1rem;
-}
-
-@media (min-width: 1400px) {
-    .btn-large {
-        padding: 1.5rem;
-        font-size: 1.2rem;
-    }
+    padding: 1rem;
+    font-size: 1rem;
 }
 
 .btn-primary {
@@ -442,8 +394,8 @@ body {
 
 .image-preview {
     width: 100%;
-    min-height: 300px;
-    max-height: 600px;
+    min-height: 250px;
+    max-height: 400px;
     background: var(--bg-secondary);
     border: 2px dashed var(--border-color);
     border-radius: 0.75rem;
@@ -461,12 +413,6 @@ body {
     object-fit: contain;
 }
 
-@media (min-width: 1600px) {
-    .image-preview {
-        max-height: 700px;
-    }
-}
-
 .image-placeholder {
     text-align: center;
     color: var(--text-secondary);
@@ -479,25 +425,16 @@ body {
 
 .text-result {
     width: 100%;
-    min-height: 200px;
-    padding: 1rem;
+    min-height: 150px;
+    padding: 0.875rem;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: 0.5rem;
     color: var(--text-primary);
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.5;
     resize: vertical;
     font-family: inherit;
-}
-
-@media (min-width: 1400px) {
-    .text-result {
-        min-height: 250px;
-        padding: 1.25rem;
-        font-size: 1rem;
-        line-height: 1.7;
-    }
 }
 
 .text-result:focus {
