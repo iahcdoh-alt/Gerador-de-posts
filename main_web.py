@@ -87,7 +87,8 @@ class BomDiaRequest(BaseModel):
     subtema: Optional[str] = ""
 
 class PostDiversoRequest(BaseModel):
-    motivo: str  # aniversario, nascimento, casamento, formatura_escola, colacao_grau, formatura_universidade, boa_viagem, bom_retorno
+    motivo: str  # aniversario, nascimento, casamento, formatura_escola, colacao_grau, formatura_universidade, boa_viagem, bom_retorno, ou personalizado
+    motivo_personalizado: bool = False  # True se o motivo é personalizado (digitado pelo usuário)
     genero: str  # masculino, feminino, neutro
     idade: int
     personalidade: str  # serio, extrovertido, normal
@@ -220,7 +221,8 @@ async def gerar_post_diverso(request: PostDiversoRequest, background_tasks: Back
             genero=request.genero,
             idade=request.idade,
             personalidade=request.personalidade,
-            mensagem_extra=request.mensagem_extra
+            mensagem_extra=request.mensagem_extra,
+            motivo_personalizado=request.motivo_personalizado
         )
 
         # Gerar mensagem de acompanhamento
@@ -229,7 +231,8 @@ async def gerar_post_diverso(request: PostDiversoRequest, background_tasks: Back
             genero=request.genero,
             idade=request.idade,
             personalidade=request.personalidade,
-            mensagem_extra=request.mensagem_extra
+            mensagem_extra=request.mensagem_extra,
+            motivo_personalizado=request.motivo_personalizado
         )
 
         # URL da imagem

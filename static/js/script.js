@@ -170,12 +170,44 @@ const progressDiverso = document.getElementById('progressDiverso');
 const imagePreviewDiverso = document.getElementById('imagePreviewDiverso');
 const textResultDiverso = document.getElementById('textResultDiverso');
 
+// Gerenciar habilitação/desabilitação entre motivo predefinido e personalizado
+const motivoSelect = document.getElementById('motivoSelect');
+const motivoPersonalizado = document.getElementById('motivoPersonalizado');
+
+motivoPersonalizado.addEventListener('input', () => {
+    if (motivoPersonalizado.value.trim()) {
+        // Se campo personalizado está preenchido, desabilita o select
+        motivoSelect.disabled = true;
+        motivoSelect.value = '';
+        motivoSelect.removeAttribute('required');
+    } else {
+        // Se campo personalizado está vazio, reabilita o select
+        motivoSelect.disabled = false;
+        motivoSelect.setAttribute('required', 'required');
+    }
+});
+
+motivoSelect.addEventListener('change', () => {
+    if (motivoSelect.value) {
+        // Se um motivo foi selecionado, limpa e desabilita o campo personalizado
+        motivoPersonalizado.value = '';
+        motivoPersonalizado.disabled = true;
+    } else {
+        // Se nenhum motivo selecionado, reabilita campo personalizado
+        motivoPersonalizado.disabled = false;
+    }
+});
+
 formPostDiverso.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const formData = new FormData(formPostDiverso);
+    const motivoPersonalizadoValue = formData.get('motivo_personalizado')?.trim();
+    const motivoPredefinido = formData.get('motivo');
+
     const data = {
-        motivo: formData.get('motivo'),
+        motivo: motivoPersonalizadoValue || motivoPredefinido,
+        motivo_personalizado: !!motivoPersonalizadoValue,
         genero: formData.get('genero'),
         idade: parseInt(formData.get('idade')),
         personalidade: formData.get('personalidade'),
@@ -184,7 +216,7 @@ formPostDiverso.addEventListener('submit', async (e) => {
 
     // Validação do motivo
     if (!data.motivo) {
-        alert('⚠️ Por favor, selecione o motivo da comemoração!');
+        alert('⚠️ Por favor, selecione ou digite um motivo da comemoração!');
         return;
     }
 

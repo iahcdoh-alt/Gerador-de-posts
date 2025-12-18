@@ -781,7 +781,7 @@ class OpenAIService:
 
     # ===== POSTS DIVERSOS / COMEMORATIVOS =====
 
-    def gerar_card_comemorativo(self, motivo, genero, idade, personalidade, mensagem_extra=""):
+    def gerar_card_comemorativo(self, motivo, genero, idade, personalidade, mensagem_extra="", motivo_personalizado=False):
         """
         Gera card comemorativo para WhatsApp com texto usando Flux.1
         As características (gênero, idade, personalidade) são usadas como CONTEXTO
@@ -793,7 +793,7 @@ class OpenAIService:
         dimensoes = {"width": 1024, "height": 1024}
 
         # Criar prompt com texto integrado
-        prompt = self._criar_prompt_card_comemorativo(motivo, genero, idade, personalidade)
+        prompt = self._criar_prompt_card_comemorativo(motivo, genero, idade, personalidade, motivo_personalizado)
 
         print(f"📝 Prompt: {prompt[:100]}...")
 
@@ -837,7 +837,7 @@ class OpenAIService:
             print(f"❌ Erro ao gerar card: {e}")
             raise Exception(f"Erro ao conectar com Replicate: {str(e)}")
 
-    def gerar_mensagem_comemorativa(self, motivo, genero, idade, personalidade, mensagem_extra=""):
+    def gerar_mensagem_comemorativa(self, motivo, genero, idade, personalidade, mensagem_extra="", motivo_personalizado=False):
         """
         Gera mensagem de acompanhamento para o card comemorativo
         As características definem o TOM da mensagem, mas NÃO aparecem no texto
@@ -848,18 +848,22 @@ class OpenAIService:
         tom = self._definir_tom_mensagem(idade, personalidade)
 
         # Mapear motivos para contextos
-        contextos = {
-            "aniversario": "aniversário especial",
-            "nascimento": "nascimento de um bebê",
-            "casamento": "casamento",
-            "formatura_escola": "formatura escolar",
-            "colacao_grau": "colação de grau",
-            "formatura_universidade": "formatura universitária",
-            "boa_viagem": "viagem",
-            "bom_retorno": "retorno de viagem"
-        }
-
-        contexto = contextos.get(motivo, motivo)
+        if motivo_personalizado:
+            # Se é personalizado, usa o motivo diretamente
+            contexto = motivo
+        else:
+            # Mapear motivos predefinidos
+            contextos = {
+                "aniversario": "aniversário especial",
+                "nascimento": "nascimento de um bebê",
+                "casamento": "casamento",
+                "formatura_escola": "formatura escolar",
+                "colacao_grau": "colação de grau",
+                "formatura_universidade": "formatura universitária",
+                "boa_viagem": "viagem",
+                "bom_retorno": "retorno de viagem"
+            }
+            contexto = contextos.get(motivo, motivo)
 
         prompt = f"""
         Crie uma mensagem curta e emocionante para acompanhar um card comemorativo de {contexto}.
@@ -897,73 +901,82 @@ class OpenAIService:
             print(f"❌ Erro: {e}")
             return "Parabéns! Desejamos toda felicidade do mundo! 🎉"
 
-    def _criar_prompt_card_comemorativo(self, motivo, genero, idade, personalidade):
+    def _criar_prompt_card_comemorativo(self, motivo, genero, idade, personalidade, motivo_personalizado=False):
         """
         Cria prompt para card comemorativo com texto integrado
         Usa características como contexto para definir ESTILO
         """
-        # Definir saudações e textos por motivo
-        textos = {
-            "aniversario": {
-                "texto": "FELIZ ANIVERSÁRIO!",
-                "subtexto": "Que seu dia seja mágico",
-                "fonte": "bold festive font"
-            },
-            "nascimento": {
-                "texto": "BEM-VINDO AO MUNDO!",
-                "subtexto": "Uma nova vida chegou",
-                "fonte": "gentle handwritten font"
-            },
-            "casamento": {
-                "texto": "FELICIDADES!",
-                "subtexto": "Que sejam muito felizes",
-                "fonte": "elegant script font"
-            },
-            "formatura_escola": {
-                "texto": "PARABÉNS!",
-                "subtexto": "Você conseguiu!",
-                "fonte": "modern bold font"
-            },
-            "colacao_grau": {
-                "texto": "PARABÉNS!",
-                "subtexto": "Conquista merecida",
-                "fonte": "sophisticated serif font"
-            },
-            "formatura_universidade": {
-                "texto": "PARABÉNS FORMANDO!",
-                "subtexto": "Sucesso sempre",
-                "fonte": "sophisticated serif font"
-            },
-            "boa_viagem": {
-                "texto": "BOA VIAGEM!",
-                "subtexto": "Aproveite cada momento",
-                "fonte": "friendly sans-serif font"
-            },
-            "bom_retorno": {
-                "texto": "BEM-VINDO DE VOLTA!",
-                "subtexto": "Que bom te ver novamente",
-                "fonte": "warm friendly font"
+        # Se é motivo personalizado, usar GPT para gerar texto e cenário apropriados
+        if motivo_personalizado:
+            config = {
+                "texto": f"PARABÉNS!",
+                "subtexto": motivo,
+                "fonte": "elegant modern font"
             }
-        }
+            cenario = f"celebration background themed around {motivo}, festive and joyful atmosphere"
+        else:
+            # Definir saudações e textos por motivo predefinido
+            textos = {
+                "aniversario": {
+                    "texto": "FELIZ ANIVERSÁRIO!",
+                    "subtexto": "Que seu dia seja mágico",
+                    "fonte": "bold festive font"
+                },
+                "nascimento": {
+                    "texto": "BEM-VINDO AO MUNDO!",
+                    "subtexto": "Uma nova vida chegou",
+                    "fonte": "gentle handwritten font"
+                },
+                "casamento": {
+                    "texto": "FELICIDADES!",
+                    "subtexto": "Que sejam muito felizes",
+                    "fonte": "elegant script font"
+                },
+                "formatura_escola": {
+                    "texto": "PARABÉNS!",
+                    "subtexto": "Você conseguiu!",
+                    "fonte": "modern bold font"
+                },
+                "colacao_grau": {
+                    "texto": "PARABÉNS!",
+                    "subtexto": "Conquista merecida",
+                    "fonte": "sophisticated serif font"
+                },
+                "formatura_universidade": {
+                    "texto": "PARABÉNS FORMANDO!",
+                    "subtexto": "Sucesso sempre",
+                    "fonte": "sophisticated serif font"
+                },
+                "boa_viagem": {
+                    "texto": "BOA VIAGEM!",
+                    "subtexto": "Aproveite cada momento",
+                    "fonte": "friendly sans-serif font"
+                },
+                "bom_retorno": {
+                    "texto": "BEM-VINDO DE VOLTA!",
+                    "subtexto": "Que bom te ver novamente",
+                    "fonte": "warm friendly font"
+                }
+            }
 
-        config = textos.get(motivo, textos["aniversario"])
+            config = textos.get(motivo, textos["aniversario"])
+
+            # Definir cenário/background baseado no motivo
+            cenarios = {
+                "aniversario": "birthday celebration background with balloons, confetti, and warm festive atmosphere",
+                "nascimento": "soft pastel colors with baby elements, gentle and tender atmosphere",
+                "casamento": "romantic setting with flowers, elegant and sophisticated atmosphere",
+                "formatura_escola": "academic celebration with colorful confetti, youthful energy",
+                "colacao_grau": "formal academic setting with elegant decorations",
+                "formatura_universidade": "sophisticated graduation ceremony atmosphere with gold accents",
+                "boa_viagem": "travel-themed background with maps, suitcases, adventure vibes",
+                "bom_retorno": "welcoming home atmosphere with warm cozy elements"
+            }
+
+            cenario = cenarios.get(motivo, "festive celebration background")
 
         # Definir estilo baseado em idade e personalidade
         estilo_visual = self._definir_estilo_visual(idade, personalidade)
-
-        # Definir cenário/background baseado no motivo
-        cenarios = {
-            "aniversario": "birthday celebration background with balloons, confetti, and warm festive atmosphere",
-            "nascimento": "soft pastel colors with baby elements, gentle and tender atmosphere",
-            "casamento": "romantic setting with flowers, elegant and sophisticated atmosphere",
-            "formatura_escola": "academic celebration with colorful confetti, youthful energy",
-            "colacao_grau": "formal academic setting with elegant decorations",
-            "formatura_universidade": "sophisticated graduation ceremony atmosphere with gold accents",
-            "boa_viagem": "travel-themed background with maps, suitcases, adventure vibes",
-            "bom_retorno": "welcoming home atmosphere with warm cozy elements"
-        }
-
-        cenario = cenarios.get(motivo, "festive celebration background")
 
         prompt = f"""
         Create a professional celebratory card for WhatsApp (1080x1080).

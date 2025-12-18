@@ -258,7 +258,7 @@
                         <form id="formPostDiverso">
                             <div class="form-group">
                                 <label class="form-label">🎊 Motivo da Comemoração</label>
-                                <select name="motivo" class="form-select" required>
+                                <select name="motivo" id="motivoSelect" class="form-select">
                                     <option value="">Selecione o motivo...</option>
                                     <option value="aniversario">🎂 Aniversário</option>
                                     <option value="nascimento">👶 Nascimento</option>
@@ -269,6 +269,14 @@
                                     <option value="boa_viagem">✈️ Boa Viagem</option>
                                     <option value="bom_retorno">🏡 Bom Retorno</option>
                                 </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">✍️ Outro Motivo (Personalizado)</label>
+                                <input type="text" name="motivo_personalizado" id="motivoPersonalizado" class="form-input" placeholder="Ex: Promoção, Novo Emprego, Conquista...">
+                                <small style="color: var(--text-secondary); font-size: 0.85rem; display: block; margin-top: 0.5rem;">
+                                    💡 Ao preencher este campo, o motivo acima será ignorado
+                                </small>
                             </div>
 
                             <div class="form-group">
