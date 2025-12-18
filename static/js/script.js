@@ -164,6 +164,68 @@ formBomDia.addEventListener('submit', async (e) => {
     }
 });
 
+// ===== FORM SUBMISSION - POST DIVERSO =====
+const formPostDiverso = document.getElementById('formPostDiverso');
+const progressDiverso = document.getElementById('progressDiverso');
+const imagePreviewDiverso = document.getElementById('imagePreviewDiverso');
+const textResultDiverso = document.getElementById('textResultDiverso');
+
+formPostDiverso.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(formPostDiverso);
+    const data = {
+        motivo: formData.get('motivo'),
+        genero: formData.get('genero'),
+        idade: parseInt(formData.get('idade')),
+        personalidade: formData.get('personalidade'),
+        mensagem_extra: formData.get('mensagem_extra') || ''
+    };
+
+    // Validação do motivo
+    if (!data.motivo) {
+        alert('⚠️ Por favor, selecione o motivo da comemoração!');
+        return;
+    }
+
+    // Show progress
+    progressDiverso.style.display = 'block';
+    formPostDiverso.querySelector('button[type="submit"]').disabled = true;
+
+    try {
+        const response = await fetch('/api/gerar-post-diverso', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Exibir imagem
+            imagePreviewDiverso.innerHTML = `<img src="${result.imagem_url}" alt="Card comemorativo">`;
+
+            // Exibir mensagem
+            textResultDiverso.value = result.legenda;
+
+            // Salvar URL da imagem para download
+            imagePreviewDiverso.dataset.imageUrl = result.imagem_url;
+
+            alert('✅ Card comemorativo gerado com sucesso!');
+        } else {
+            alert(`❌ Erro: ${result.erro}`);
+        }
+    } catch (error) {
+        alert(`❌ Erro ao gerar card: ${error.message}`);
+        console.error('Erro:', error);
+    } finally {
+        progressDiverso.style.display = 'none';
+        formPostDiverso.querySelector('button[type="submit"]').disabled = false;
+    }
+});
+
 // ===== UTILITY FUNCTIONS =====
 function copiarTexto(textareaId) {
     const textarea = document.getElementById(textareaId);

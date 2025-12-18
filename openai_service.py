@@ -778,3 +778,271 @@ class OpenAIService:
         """
 
         return prompt
+
+    # ===== POSTS DIVERSOS / COMEMORATIVOS =====
+
+    def gerar_card_comemorativo(self, motivo, genero, idade, personalidade, mensagem_extra=""):
+        """
+        Gera card comemorativo para WhatsApp com texto usando Flux.1
+        As características (gênero, idade, personalidade) são usadas como CONTEXTO
+        para definir o estilo, mas NÃO aparecem no texto ou imagem.
+        """
+        print(f"\n🎉 Gerando card comemorativo para {motivo}...")
+
+        # Dimensões 1:1 para WhatsApp
+        dimensoes = {"width": 1024, "height": 1024}
+
+        # Criar prompt com texto integrado
+        prompt = self._criar_prompt_card_comemorativo(motivo, genero, idade, personalidade)
+
+        print(f"📝 Prompt: {prompt[:100]}...")
+
+        try:
+            output = replicate.run(
+                "black-forest-labs/flux-1.1-pro",
+                input={
+                    "prompt": prompt,
+                    "width": dimensoes["width"],
+                    "height": dimensoes["height"],
+                    "num_inference_steps": 28,
+                    "guidance_scale": 3.5
+                }
+            )
+
+            # Extrair URL da imagem
+            if hasattr(output, 'url'):
+                image_url = output.url
+            elif isinstance(output, str):
+                image_url = output
+            elif isinstance(output, list) and len(output) > 0:
+                if hasattr(output[0], 'url'):
+                    image_url = output[0].url
+                else:
+                    image_url = output[0]
+            else:
+                image_url = str(output)
+
+            # Salvar imagem
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"{self.output_dir}/card_{motivo}_{timestamp}.png"
+
+            img_data = requests.get(image_url).content
+            with open(filename, 'wb') as handler:
+                handler.write(img_data)
+
+            print(f"✅ Card comemorativo salvo: {filename}")
+            return filename
+
+        except Exception as e:
+            print(f"❌ Erro ao gerar card: {e}")
+            raise Exception(f"Erro ao conectar com Replicate: {str(e)}")
+
+    def gerar_mensagem_comemorativa(self, motivo, genero, idade, personalidade, mensagem_extra=""):
+        """
+        Gera mensagem de acompanhamento para o card comemorativo
+        As características definem o TOM da mensagem, mas NÃO aparecem no texto
+        """
+        print(f"\n💬 Gerando mensagem comemorativa...")
+
+        # Definir tom baseado nas características
+        tom = self._definir_tom_mensagem(idade, personalidade)
+
+        # Mapear motivos para contextos
+        contextos = {
+            "aniversario": "aniversário especial",
+            "nascimento": "nascimento de um bebê",
+            "casamento": "casamento",
+            "formatura_escola": "formatura escolar",
+            "colacao_grau": "colação de grau",
+            "formatura_universidade": "formatura universitária",
+            "boa_viagem": "viagem",
+            "bom_retorno": "retorno de viagem"
+        }
+
+        contexto = contextos.get(motivo, motivo)
+
+        prompt = f"""
+        Crie uma mensagem curta e emocionante para acompanhar um card comemorativo de {contexto}.
+
+        TOM DA MENSAGEM: {tom}
+        {f"INCLUIR: {mensagem_extra}" if mensagem_extra else ""}
+
+        REQUISITOS:
+        - 2-3 linhas no máximo
+        - Emocionante e genuína
+        - Adequada para envio no WhatsApp
+        - NÃO mencione idade, gênero ou personalidade
+        - Focada nos sentimentos e bons votos
+        - Use emojis apropriados (máximo 2-3)
+
+        Retorne APENAS a mensagem, sem aspas ou formatação extra.
+        """
+
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-4",
+                messages=[
+                    {"role": "system", "content": "Você é especialista em criar mensagens comemorativas genuínas e emocionantes."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.8,
+                max_tokens=200
+            )
+
+            mensagem = response.choices[0].message.content.strip()
+            print(f"✅ Mensagem gerada!")
+            return mensagem
+
+        except Exception as e:
+            print(f"❌ Erro: {e}")
+            return "Parabéns! Desejamos toda felicidade do mundo! 🎉"
+
+    def _criar_prompt_card_comemorativo(self, motivo, genero, idade, personalidade):
+        """
+        Cria prompt para card comemorativo com texto integrado
+        Usa características como contexto para definir ESTILO
+        """
+        # Definir saudações e textos por motivo
+        textos = {
+            "aniversario": {
+                "texto": "FELIZ ANIVERSÁRIO!",
+                "subtexto": "Que seu dia seja mágico",
+                "fonte": "bold festive font"
+            },
+            "nascimento": {
+                "texto": "BEM-VINDO AO MUNDO!",
+                "subtexto": "Uma nova vida chegou",
+                "fonte": "gentle handwritten font"
+            },
+            "casamento": {
+                "texto": "FELICIDADES!",
+                "subtexto": "Que sejam muito felizes",
+                "fonte": "elegant script font"
+            },
+            "formatura_escola": {
+                "texto": "PARABÉNS!",
+                "subtexto": "Você conseguiu!",
+                "fonte": "modern bold font"
+            },
+            "colacao_grau": {
+                "texto": "PARABÉNS!",
+                "subtexto": "Conquista merecida",
+                "fonte": "sophisticated serif font"
+            },
+            "formatura_universidade": {
+                "texto": "PARABÉNS FORMANDO!",
+                "subtexto": "Sucesso sempre",
+                "fonte": "sophisticated serif font"
+            },
+            "boa_viagem": {
+                "texto": "BOA VIAGEM!",
+                "subtexto": "Aproveite cada momento",
+                "fonte": "friendly sans-serif font"
+            },
+            "bom_retorno": {
+                "texto": "BEM-VINDO DE VOLTA!",
+                "subtexto": "Que bom te ver novamente",
+                "fonte": "warm friendly font"
+            }
+        }
+
+        config = textos.get(motivo, textos["aniversario"])
+
+        # Definir estilo baseado em idade e personalidade
+        estilo_visual = self._definir_estilo_visual(idade, personalidade)
+
+        # Definir cenário/background baseado no motivo
+        cenarios = {
+            "aniversario": "birthday celebration background with balloons, confetti, and warm festive atmosphere",
+            "nascimento": "soft pastel colors with baby elements, gentle and tender atmosphere",
+            "casamento": "romantic setting with flowers, elegant and sophisticated atmosphere",
+            "formatura_escola": "academic celebration with colorful confetti, youthful energy",
+            "colacao_grau": "formal academic setting with elegant decorations",
+            "formatura_universidade": "sophisticated graduation ceremony atmosphere with gold accents",
+            "boa_viagem": "travel-themed background with maps, suitcases, adventure vibes",
+            "bom_retorno": "welcoming home atmosphere with warm cozy elements"
+        }
+
+        cenario = cenarios.get(motivo, "festive celebration background")
+
+        prompt = f"""
+        Create a professional celebratory card for WhatsApp (1080x1080).
+
+        TEXT REQUIREMENTS:
+        - Main text at top or center: "{config['texto']}"
+        - Subtitle below: "{config['subtexto']}"
+        - Font style: {config['fonte']}
+        - Text must be perfectly legible and readable
+        - Text should complement the image, not interfere with it
+
+        VISUAL STYLE:
+        - {cenario}
+        - {estilo_visual}
+        - Beautiful, warm, and inviting
+        - Professional photography quality
+        - 8K resolution, hyper-realistic
+
+        COMPOSITION:
+        - Text positioned elegantly (top third or center)
+        - Background elements support the celebration theme
+        - Balanced composition with visual hierarchy
+        - Leave breathing room around text
+
+        CRITICAL:
+        - Text must be spelled correctly
+        - High contrast for readability
+        - Professional celebratory card quality
+        - Perfect for sharing on WhatsApp
+        """
+
+        return prompt
+
+    def _definir_estilo_visual(self, idade, personalidade):
+        """
+        Define estilo visual baseado em idade e personalidade
+        Retorna descrição de estilo, NÃO menciona idade/personalidade diretamente
+        """
+        # Idade influencia paleta e complexidade
+        if idade <= 12:
+            base_estilo = "vibrant cheerful colors, playful energetic vibe, fun and joyful"
+        elif idade <= 25:
+            base_estilo = "modern trendy colors, dynamic and fresh, youthful energy"
+        elif idade <= 50:
+            base_estilo = "sophisticated elegant colors, balanced and refined, mature style"
+        else:
+            base_estilo = "classic timeless colors, dignified and warm, elegant simplicity"
+
+        # Personalidade influencia intensidade e complexidade
+        if personalidade == "extrovertido":
+            modificador = "bold vibrant design, energetic and lively, eye-catching details"
+        elif personalidade == "serio":
+            modificador = "refined minimalist design, clean and sophisticated, subtle elegance"
+        else:  # normal
+            modificador = "balanced harmonious design, warm and inviting, pleasant aesthetics"
+
+        return f"{base_estilo}, {modificador}"
+
+    def _definir_tom_mensagem(self, idade, personalidade):
+        """
+        Define tom da mensagem baseado em idade e personalidade
+        Retorna descrição de tom, NÃO menciona características diretamente
+        """
+        # Idade influencia formalidade
+        if idade <= 12:
+            base_tom = "carinhoso e afetuoso, linguagem simples e alegre"
+        elif idade <= 25:
+            base_tom = "empolgante e inspirador, linguagem moderna e positiva"
+        elif idade <= 50:
+            base_tom = "respeitoso e caloroso, linguagem equilibrada"
+        else:
+            base_tom = "afetuoso e respeitoso, linguagem elegante e sincera"
+
+        # Personalidade influencia expressividade
+        if personalidade == "extrovertido":
+            modificador = "entusiasmado e expressivo"
+        elif personalidade == "serio":
+            modificador = "genuíno e ponderado"
+        else:  # normal
+            modificador = "acolhedor e sincero"
+
+        return f"{base_tom}, {modificador}"

@@ -86,6 +86,13 @@ class BomDiaRequest(BaseModel):
     categoria: str  # sucesso, forca, positividade, foco, amor_proprio, metas, esperanca, paz
     subtema: Optional[str] = ""
 
+class PostDiversoRequest(BaseModel):
+    motivo: str  # aniversario, nascimento, casamento, formatura_escola, colacao_grau, formatura_universidade, boa_viagem, bom_retorno
+    genero: str  # masculino, feminino, neutro
+    idade: int
+    personalidade: str  # serio, extrovertido, normal
+    mensagem_extra: Optional[str] = ""
+
 class PostResponse(BaseModel):
     success: bool
     imagem_url: Optional[str] = None
@@ -191,6 +198,49 @@ async def gerar_bom_dia(request: BomDiaRequest, background_tasks: BackgroundTask
             imagem_url=imagem_url,
             legenda=mensagem,
             hashtags=hashtags
+        )
+
+    except Exception as e:
+        return PostResponse(
+            success=False,
+            erro=str(e)
+        )
+
+@app.post("/api/gerar-post-diverso", response_model=PostResponse)
+async def gerar_post_diverso(request: PostDiversoRequest, background_tasks: BackgroundTasks):
+    """Gera card comemorativo para WhatsApp"""
+
+    if not openai_service:
+        raise HTTPException(status_code=500, detail="Serviços não inicializados. Verifique as chaves de API.")
+
+    try:
+        # Gerar card comemorativo
+        imagem_path = openai_service.gerar_card_comemorativo(
+            motivo=request.motivo,
+            genero=request.genero,
+            idade=request.idade,
+            personalidade=request.personalidade,
+            mensagem_extra=request.mensagem_extra
+        )
+
+        # Gerar mensagem de acompanhamento
+        mensagem = openai_service.gerar_mensagem_comemorativa(
+            motivo=request.motivo,
+            genero=request.genero,
+            idade=request.idade,
+            personalidade=request.personalidade,
+            mensagem_extra=request.mensagem_extra
+        )
+
+        # URL da imagem
+        imagem_filename = os.path.basename(imagem_path)
+        imagem_url = f"/generated_images/{imagem_filename}"
+
+        return PostResponse(
+            success=True,
+            imagem_url=imagem_url,
+            legenda=mensagem,
+            hashtags=[]  # Cards comemorativos não usam hashtags
         )
 
     except Exception as e:

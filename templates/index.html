@@ -41,6 +41,9 @@
                 <button class="tab-button" data-tab="bom-dia">
                     🌅 Bom Dia Motivacional
                 </button>
+                <button class="tab-button" data-tab="posts-diversos">
+                    🎉 Posts Diversos
+                </button>
             </div>
 
             <!-- Tab Content: Posts Normais -->
@@ -234,6 +237,103 @@
                                 📋 Copiar Texto
                             </button>
                             <button class="btn btn-secondary" onclick="baixarImagem('imagePreviewBomDia')">
+                                💾 Baixar Imagem
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Posts Diversos -->
+            <div id="posts-diversos" class="tab-content">
+                <div class="grid-2col">
+                    <!-- Left Column: Form -->
+                    <div class="card">
+                        <h2 class="card-title">🎉 Configurações do Card Comemorativo</h2>
+
+                        <div class="info-box">
+                            <p>ℹ️ Cards para WhatsApp - Formato Quadrado (1080x1080)</p>
+                        </div>
+
+                        <form id="formPostDiverso">
+                            <div class="form-group">
+                                <label class="form-label">🎊 Motivo da Comemoração</label>
+                                <select name="motivo" class="form-select" required>
+                                    <option value="">Selecione o motivo...</option>
+                                    <option value="aniversario">🎂 Aniversário</option>
+                                    <option value="nascimento">👶 Nascimento</option>
+                                    <option value="casamento">💍 Casamento</option>
+                                    <option value="formatura_escola">🎓 Formatura na Escola</option>
+                                    <option value="colacao_grau">🎓 Colação de Grau</option>
+                                    <option value="formatura_universidade">🎓 Formatura na Universidade</option>
+                                    <option value="boa_viagem">✈️ Boa Viagem</option>
+                                    <option value="bom_retorno">🏡 Bom Retorno</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">👤 Gênero (contexto)</label>
+                                <select name="genero" class="form-select" required>
+                                    <option value="neutro">Neutro</option>
+                                    <option value="masculino">Masculino</option>
+                                    <option value="feminino">Feminino</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">🎂 Idade (aproximada)</label>
+                                <input type="number" name="idade" class="form-input" placeholder="Ex: 25, 50, 8..." min="1" max="120" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">🎭 Personalidade</label>
+                                <select name="personalidade" class="form-select" required>
+                                    <option value="normal">Normal</option>
+                                    <option value="serio">Sério(a)</option>
+                                    <option value="extrovertido">Extrovertido(a)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">💬 Mensagem Personalizada (Opcional)</label>
+                                <input type="text" name="mensagem_extra" class="form-input" placeholder="Ex: Que todos os seus sonhos se realizem...">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-large">
+                                🎁 GERAR CARD COMEMORATIVO
+                            </button>
+
+                            <div class="progress-container" id="progressDiverso" style="display: none;">
+                                <div class="progress-bar"></div>
+                                <p class="progress-text">Gerando seu card comemorativo...</p>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right Column: Preview -->
+                    <div class="card">
+                        <h2 class="card-title">📊 Preview e Resultados</h2>
+
+                        <div class="preview-section">
+                            <h3 class="preview-title">🖼️ Card WhatsApp (1:1)</h3>
+                            <div id="imagePreviewDiverso" class="image-preview">
+                                <div class="image-placeholder">
+                                    <p>🎉</p>
+                                    <p>O card aparecerá aqui</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="preview-section">
+                            <h3 class="preview-title">💬 Mensagem de Acompanhamento</h3>
+                            <textarea id="textResultDiverso" class="text-result" readonly>Aguardando geração...</textarea>
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn btn-secondary" onclick="copiarTexto('textResultDiverso')">
+                                📋 Copiar Texto
+                            </button>
+                            <button class="btn btn-secondary" onclick="baixarImagem('imagePreviewDiverso')">
                                 💾 Baixar Imagem
                             </button>
                         </div>
