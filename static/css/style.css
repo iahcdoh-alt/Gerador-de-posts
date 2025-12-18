@@ -58,6 +58,12 @@ body {
     }
 }
 
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+}
+
 /* ===== HEADER ===== */
 .header {
     background: var(--bg-card);
@@ -166,12 +172,25 @@ body {
     min-height: calc(100vh - 300px);
 }
 
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1rem 0;
+    }
+}
+
 /* ===== TABS ===== */
 .tabs {
     display: flex;
     gap: 1rem;
     margin-bottom: 2rem;
     border-bottom: 2px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+    .tabs {
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
 }
 
 .tab-button {
@@ -185,6 +204,13 @@ body {
     cursor: pointer;
     transition: all 0.2s;
     margin-bottom: -2px;
+}
+
+@media (max-width: 768px) {
+    .tab-button {
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+    }
 }
 
 .tab-button:hover {
@@ -223,6 +249,13 @@ body {
 @media (max-width: 968px) {
     .grid-2col {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-2col {
+        gap: 1rem;
     }
 }
 
@@ -238,6 +271,71 @@ body {
 /* Cards menores para Bom Dia */
 #bom-dia .card {
     padding: 1.25rem;
+}
+
+/* Responsividade para Posts Diversos em mobile */
+@media (max-width: 968px) {
+    #posts-diversos .card {
+        padding: 1rem;
+    }
+
+    #posts-diversos .card-title {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    #posts-diversos .form-group {
+        margin-bottom: 1rem;
+    }
+
+    #posts-diversos .form-label {
+        font-size: 0.85rem;
+        margin-bottom: 0.4rem;
+    }
+
+    #posts-diversos .form-input,
+    #posts-diversos .form-select {
+        padding: 0.65rem 0.875rem;
+        font-size: 0.85rem;
+    }
+
+    #posts-diversos .info-box {
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    #posts-diversos .info-box p {
+        font-size: 0.8rem;
+    }
+
+    #posts-diversos small {
+        font-size: 0.75rem !important;
+    }
+
+    #posts-diversos .preview-section {
+        margin-bottom: 1rem;
+    }
+
+    #posts-diversos .preview-title {
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
+    }
+
+    #posts-diversos .image-preview {
+        min-height: 200px;
+        max-height: 300px;
+    }
+
+    #posts-diversos .text-result {
+        min-height: 100px;
+        padding: 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    #posts-diversos .btn-large {
+        padding: 0.875rem;
+        font-size: 0.95rem;
+    }
 }
 
 .card-title {
